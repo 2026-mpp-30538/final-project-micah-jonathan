@@ -63,7 +63,7 @@ output_ghgp = script_dir / '../data/derived-data/ghgp.csv'
 
 # Cleaning carbon emissions
 
-ghgp = pd.read_csv(raw_ghgp)
+ghgp = pd.read_excel(raw_ghgp)
 
 ghgp = ghgp.iloc[3:].reset_index(drop=True)
 
