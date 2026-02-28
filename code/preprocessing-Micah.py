@@ -55,3 +55,56 @@ asthma_df = pd.read_csv(raw_asthma)
 asthma_filtered = asthma_df[["CountyFIPS", "County", "Year", "Value"]]
 
 asthma_filtered.to_csv(output_asthma, index=False)
+
+# Loading carbon emissions file
+
+raw_ghgp = script_dir / '../data/raw-data/ghgp_data_2021_0.csv'
+output_ghgp = script_dir / '../data/derived-data/ghgp.csv'
+
+# Cleaning carbon emissions
+
+ghgp = pd.read_csv(raw_ghgp)
+
+ghgp = ghgp.iloc[3:].reset_index(drop=True)
+
+ghgp = ghgp[["Unnamed: 4", "Unnamed: 7", "Unnamed: 8", "Unnamed: 9", "Unnamed: 13"]]
+ghgp.rename(columns={"Unnamed: 4": "State", "Unnamed: 7": "County", "Unnamed: 8": "Latitude", "Unnamed: 9": "Longitude", "Unnamed: 13": "Total Direct Emissions"}, inplace=True)
+
+ghgp = ghgp[ghgp["State"] == "IL"]
+ghgp = ghgp.dropna()
+
+ghgp["County"] = (ghgp["County"]
+                  .astype(str)
+                  .str.strip()
+                  .str.lower()
+                  .str.replace(r"county.*$", "", regex=True)
+                  .str.replace(r"\s+", " ", regex=True)
+                  .str.strip()
+                  .str.title()
+)
+
+ghgp = ghgp.groupby("County").agg({
+    "Total Direct Emissions": "sum",
+    "Latitude": "mean",
+    "Longitude": "mean"
+})
+
+ghgp.to_csv(output_ghgp, index=False)
+
+# Loading AQI file
+
+raw_aqi = script_dir / '../data/raw-data/daily_aqi_by_county_2025.csv'
+output_aqi = script_dir / '../data/derived-data/aqi.csv'
+
+# Cleaning AQI file
+
+aqi = pd.read_csv(raw_aqi)
+
+aqi = aqi[["State Name", "county Name", "AQI", "Defining Parameter"]]
+aqi.rename(columns={"State Name": "State", "county Name": "County"}, inplace=True)
+
+aqi = aqi[aqi["State"] == "Illinois"]
+
+aqi = aqi.groupby(["County", "Defining Parameter"], as_index=False).agg({"AQI": "mean"})
+
+aqi.to_csv(output_aqi, index=False)
