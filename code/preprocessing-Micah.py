@@ -58,7 +58,7 @@ asthma_filtered.to_csv(output_asthma, index=False)
 
 # Loading carbon emissions file
 
-raw_ghgp = script_dir / '../data/raw-data/ghgp_data_2021_0.csv'
+raw_ghgp = script_dir / '../data/raw-data/ghgp_data_2021_0.xlsx'
 output_ghgp = script_dir / '../data/derived-data/ghgp.csv'
 
 # Cleaning carbon emissions
