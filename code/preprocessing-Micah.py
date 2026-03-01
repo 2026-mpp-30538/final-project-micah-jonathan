@@ -108,3 +108,60 @@ aqi = aqi[aqi["State"] == "Illinois"]
 aqi = aqi.groupby(["County", "Defining Parameter"], as_index=False).agg({"AQI": "mean"})
 
 aqi.to_csv(output_aqi, index=False)
+
+# Loading Stroke file
+
+raw_stroke = script_dir / '../data/raw-data/heart_stroke_mortality.csv'
+output_stroke = script_dir / '../data/derived-data/stroke.csv'
+
+# Cleaning Stroke file
+
+stroke = pd.read_csv(raw_stroke)
+
+stroke = stroke[stroke["Year"] == "2019"]
+stroke = stroke[stroke["Topic"] == "All stroke"]
+
+stroke = stroke[["Year", "LocationAbbr", "LocationDesc", "Topic", "Data_Value"]]
+stroke.rename(columns={"LocationAbbr": "State", "LocationDesc": "County"}, inplace=True)
+
+stroke = stroke.dropna()
+
+stroke.to_csv(output_stroke, index=False)
+
+# Loading Heart file
+
+raw_heart = script_dir / '../data/raw-data/heart_stroke_mortality.csv'
+output_heart = script_dir / '../data/derived-data/heart.csv'
+
+# Cleaning Heart file
+
+heart = pd.read_csv(raw_heart)
+
+heart = heart[heart["Year"] == "2019"]
+heart = heart[heart["Topic"] == "All heart disease"]
+
+heart = heart[["Year", "LocationAbbr", "LocationDesc", "Topic", "Data_Value"]]
+heart.rename(columns={"LocationAbbr": "State", "LocationDesc": "County"}, inplace=True)
+
+heart = heart.dropna()
+
+heart.to_csv(output_heart, index=False)
+
+# Loading COVID file
+
+raw_covid = script_dir / '../data/raw-data/us-counties.csv'
+output_covid = script_dir / '../data/derived-data/covid.csv'
+
+# Cleaning COVID file
+
+cov = pd.read_csv(raw_covid)
+
+cov["Date"] = 2020
+
+cov = cov[["Date", "County", "State", "Deaths"]]
+
+cov = cov.groupby("County").agg({"Deaths": "sum"})
+
+covid.to_csv(output_covid, index=False)
+
+
