@@ -168,6 +168,28 @@ cov = cov.groupby("County", as_index=False).agg({"Deaths": "sum"})
 
 covid.to_csv(output_covid, index=False)
 
+# Loading Population file
+
+raw_pop = script_dir / '../data/raw-data/population_illinois.xlsx'
+output_pop = script_dir / '../data/derived-data/population.csv'
+
+#Illinois Population by County
+
+pop = pd.read_excel(raw_pop)
+
+pop["County"] = (pop["County"]
+                  .astype(str)
+                  .str.strip()
+                  .str.lower()
+                  .str.replace(r"county.*$", "", regex=True)
+                  .str.replace(r"\s+", " ", regex=True)
+                  .str.replace(".", "")
+                  .str.strip()
+                  .str.title()
+)
+
+pop.to_csv(output_pop ,index=False)
+
 #Merged Health Outcomes
 
 output_outcomes = script_dir / '../data/derived-data/outcomes.csv'
