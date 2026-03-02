@@ -83,11 +83,13 @@ ghgp["County"] = (ghgp["County"]
                   .str.title()
 )
 
-ghgp = ghgp.groupby("County").agg({
+ghgp = ghgp.groupby("County", as_index=False).agg({
     "Total Direct Emissions": "sum",
     "Latitude": "mean",
     "Longitude": "mean"
 })
+
+ghgp = ghgp[ghgp["County"] != "Lasalle"]
 
 ghgp.to_csv(output_ghgp, index=False)
 
