@@ -196,22 +196,25 @@ output_outcomes = script_dir / '../data/derived-data/outcomes.csv'
 
 ghgp_20 = ghgp.sort_values(by="Total Direct Emissions", ascending=False).head(20).reset_index().copy()
 top_20 = ghgp_20["County"].unique()
-asthma_20 = asthma_filtered[asthma_filtered["County"].isin(top_20)].copy()
-copd_20 = copd_filtered[copd_filtered["County"].isin(top_20)].copy()
+asthma_20 = asthma[asthma["County"].isin(top_20)].copy()
+copd_20 = copd[copd["County"].isin(top_20)].copy()
 covid_20 = cov[cov["County"].isin(top_20)].copy()
 heart_20 = heart[heart["County"].isin(top_20)].copy()
 stroke_20 = stroke[stroke["County"].isin(top_20)].copy()
+pop_20 = pop[pop["County"].isin(top_20)].copy()
+"""Ranked carbon emissions by top 20 counties with highest direct emissions"""
+"""Subsetted every dataset to top 20"""
 
 asthma_20 = asthma_20.rename(columns={"Value": "Asthma Incidence"})
 copd_20 = copd_20.rename(columns={"Value": "COPD Deaths"})
-covid_20 = cov_20.rename(columns={"Deaths": "COVID Deaths"})
+covid_20 = covid_20.rename(columns={"Deaths": "COVID Deaths"})
 heart_20 = heart_20.rename(columns={"Data_Value": "Heart Failures"})
 stroke_20 = stroke_20.rename(columns={"Data_Value": "Stroke Deaths"})
-pop_20 = pop[pop["County"].isin(top_20)].copy()
 
 ghgp_20 = ghgp_20[["County", "Total Direct Emissions"]]
 asthma_20 = asthma_20[["County", "Asthma Incidence"]]
 copd_20 = copd_20[["County", "COPD Deaths"]]
+"""Standardizing for merge"""
 
 outcomes = ghgp_20.copy()
 
@@ -221,6 +224,26 @@ outcomes = outcomes.merge(covid_20, on="County", how="left")
 outcomes = outcomes.merge(heart_20, on="County", how="left")
 outcomes = outcomes.merge(stroke_20, on="County", how="left")
 outcomes = outcomes.merge(pop_20, on="County", how="left")
+
+outcomes["Asthma Incidence"] = outcomes["Asthma Incidence"]
+outcomes["COPD Deaths"] = outcomes["COPD Deaths"]
+"""Removing % signs"""
+
+
+outcomes["COVID Deaths"] = outcomes["COVID Deaths"].astype(float)
+outcomes["Heart Failures"] = outcomes["Heart Failures"].astype(float)
+outcomes["Stroke Deaths"] = outcomes["Stroke Deaths"].astype(float)
+outcomes["Population"] = outcomes["Population"].astype(float)
+"""Standardizing dtype"""
+
+outcomes["COVID Deaths"] = round((outcomes["COVID Deaths"]/outcomes["Population"]) * 100, 2)
+outcomes["Heart Failures"] = round((outcomes["Heart Failures"]/outcomes["Population"]) * 100, 2)
+outcomes["Stroke Deaths"] = round((outcomes["Stroke Deaths"]/outcomes["Population"]) * 100, 2)
+"""Turning rest into percents"""
+
+outcomes["Asthma Incidence"] = outcomes["Asthma Incidence"].str.replace("%", "")
+outcomes["COPD Deaths"] = outcomes["COPD Deaths"].str.replace("%", "")
+"""Removing % to standardize"""
                           
 outcomes.to_csv(output_outcomes, index=False)
 
