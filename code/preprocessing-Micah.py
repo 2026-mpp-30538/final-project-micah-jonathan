@@ -207,6 +207,7 @@ copd_20 = copd_20.rename(columns={"Value": "COPD Deaths"})
 covid_20 = cov_20.rename(columns={"Deaths": "COVID Deaths"})
 heart_20 = heart_20.rename(columns={"Data_Value": "Heart Failures"})
 stroke_20 = stroke_20.rename(columns={"Data_Value": "Stroke Deaths"})
+pop_20 = pop[pop["County"].isin(top_20)].copy()
 
 ghgp_20 = ghgp_20[["County", "Total Direct Emissions"]]
 asthma_20 = asthma_20[["County", "Asthma Incidence"]]
@@ -219,6 +220,7 @@ outcomes = outcomes.merge(copd_20, on="County", how="left")
 outcomes = outcomes.merge(covid_20, on="County", how="left")
 outcomes = outcomes.merge(heart_20, on="County", how="left")
 outcomes = outcomes.merge(stroke_20, on="County", how="left")
+outcomes = outcomes.merge(pop_20, on="County", how="left")
                           
 outcomes.to_csv(output_outcomes, index=False)
 
