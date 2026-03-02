@@ -125,6 +125,7 @@ stroke = stroke[["Year", "LocationAbbr", "LocationDesc", "Topic", "Data_Value"]]
 stroke.rename(columns={"LocationAbbr": "State", "LocationDesc": "County"}, inplace=True)
 
 stroke = stroke.dropna()
+stroke = stroke.groupby("County", as_index=False).agg({"Data_Value": "sum"})
 
 stroke.to_csv(output_stroke, index=False)
 
@@ -144,6 +145,7 @@ heart = heart[["Year", "LocationAbbr", "LocationDesc", "Topic", "Data_Value"]]
 heart.rename(columns={"LocationAbbr": "State", "LocationDesc": "County"}, inplace=True)
 
 heart = heart.dropna()
+heart = heart.groupby("County", as_index=False).agg({"Data_Value": "sum"})
 
 heart.to_csv(output_heart, index=False)
 
