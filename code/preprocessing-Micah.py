@@ -188,7 +188,7 @@ pop["County"] = (pop["County"]
                   .str.title()
 )
 
-pop.to_csv(output_pop ,index=False)
+pop.to_csv(output_pop, index=False)
 
 #Merged Health Outcomes
 
@@ -220,6 +220,6 @@ outcomes = outcomes.merge(covid_20, on="County", how="left")
 outcomes = outcomes.merge(heart_20, on="County", how="left")
 outcomes = outcomes.merge(stroke_20, on="County", how="left")
                           
-outcomes.to_csv(output_outcomes ,index=False)
+outcomes.to_csv(output_outcomes, index=False)
 
 
