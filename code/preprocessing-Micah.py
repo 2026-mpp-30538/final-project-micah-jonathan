@@ -162,7 +162,7 @@ cov["Date"] = 2020
 
 cov = cov[["Date", "County", "State", "Deaths"]]
 
-cov = cov.groupby("County").agg({"Deaths": "sum"})
+cov = cov.groupby("County", as_index=False).agg({"Deaths": "sum"})
 
 covid.to_csv(output_covid, index=False)
 
