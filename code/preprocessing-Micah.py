@@ -168,4 +168,36 @@ cov = cov.groupby("County", as_index=False).agg({"Deaths": "sum"})
 
 covid.to_csv(output_covid, index=False)
 
+#Merged Health Outcomes
+
+output_outcomes = script_dir / '../data/derived-data/outcomes.csv'
+
+ghgp_20 = ghgp.sort_values(by="Total Direct Emissions", ascending=False).head(20).reset_index().copy()
+top_20 = ghgp_20["County"].unique()
+asthma_20 = asthma_filtered[asthma_filtered["County"].isin(top_20)].copy()
+copd_20 = copd_filtered[copd_filtered["County"].isin(top_20)].copy()
+covid_20 = cov[cov["County"].isin(top_20)].copy()
+heart_20 = heart[heart["County"].isin(top_20)].copy()
+stroke_20 = stroke[stroke["County"].isin(top_20)].copy()
+
+asthma_20 = asthma_20.rename(columns={"Value": "Asthma Incidence"})
+copd_20 = copd_20.rename(columns={"Value": "COPD Deaths"})
+covid_20 = cov_20.rename(columns={"Deaths": "COVID Deaths"})
+heart_20 = heart_20.rename(columns={"Data_Value": "Heart Failures"})
+stroke_20 = stroke_20.rename(columns={"Data_Value": "Stroke Deaths"})
+
+ghgp_20 = ghgp_20[["County", "Total Direct Emissions"]]
+asthma_20 = asthma_20[["County", "Asthma Incidence"]]
+copd_20 = copd_20[["County", "COPD Deaths"]]
+
+outcomes = ghgp_20.copy()
+
+outcomes = outcomes.merge(asthma_20, on="County", how="left")
+outcomes = outcomes.merge(copd_20, on="County", how="left")
+outcomes = outcomes.merge(covid_20, on="County", how="left")
+outcomes = outcomes.merge(heart_20, on="County", how="left")
+outcomes = outcomes.merge(stroke_20, on="County", how="left")
+                          
+outcomes.to_csv(output_outcomes ,index=False)
+
 
