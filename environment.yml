@@ -1,9 +1,10 @@
-name: fire_analysis
+name: health_emissions
 channels:
-  - conda-forge
+  - default
 dependencies:
-  - python=3.11
-  - pandas
+  - altair
   - geopandas
   - matplotlib
+  - pandas
   - shapely
+  - streamlit
