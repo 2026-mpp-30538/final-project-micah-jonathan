@@ -1,13 +1,11 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/YlfKWlZ5)
-# Fire Perimeter Analysis
+# Analysis of Carbon Emissions and Public Health Outcomes
 
-This project processes and visualizes historical fire perimeter data and Canadian CPI data.
+This project processes and visualizes carbon emissions by county in Illinois and tracks their relationship to public health outcomes across the state, including cancer, COPD, asthma, and worsening complications for Covid-19, stroke, and heart failure.
 
 ## Setup
 
 ```bash
 conda env create -f environment.yml
-conda activate fire_analysis
 ```
 
 ## Project Structure
@@ -20,7 +18,7 @@ data/
   derived-data/       # Filtered data and output plots
     fire_filtered.gpkg  # Fire data filtered to post-2015
     cpi_filtered.csv    # CPI data filtered to 2020 onwards
-code/
+code/                 # Data processing and plot creation 
   preprocessing.py    # Filters fire and CPI data
   plot_fires.py       # Plots fire perimeters
 ```
