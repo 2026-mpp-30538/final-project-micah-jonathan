@@ -13,7 +13,7 @@ Cancer data
 ```{python}
 # Creating single file of emissions related cancers by county for 2016-2020  
 files = [
-    "lung-bron ch_cancer",
+    "lung-bronch_cancer",
     "breast_cancer",
     "colorectal_cancer",
     "kidney_cancer",
