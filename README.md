@@ -24,7 +24,7 @@ code/                 # Data processing and plot creation
 ```
 
 ## Streamlit Dashboard
-**Please Note** that dashboard may need time to wake up, be patient on first load.
+**Please note** that dashboard may need time to wake up, be patient on first load.
 
 ## Data Sources
 
