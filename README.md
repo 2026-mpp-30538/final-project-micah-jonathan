@@ -1,4 +1,4 @@
-# Analysis of Carbon Emissions and Public Health Outcomes
+# Resarch Question - Analysis of Carbon Emissions and Public Health Outcomes
 
 This project processes and visualizes carbon emissions by county in Illinois and tracks their relationship to public health outcomes across the state, including cancer, COPD, asthma, and worsening complications for Covid-19, stroke, and heart failure.
 
@@ -23,6 +23,12 @@ code/                 # Data processing and plot creation
   plot_fires.py       # Plots fire perimeters
 ```
 
+## Streamlit Dashboard
+
+## Data Sources
+
+## Data Processing
+
 ## Usage
 
 1. Run preprocessing to filter data:
@@ -34,3 +40,5 @@ code/                 # Data processing and plot creation
    ```bash
    python code/plot_fires.py
    ```
+
+## Key Findings
